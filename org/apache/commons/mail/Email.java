@@ -871,11 +871,11 @@ public abstract class Email
 
         if (this.headers.size() > 0)
         {
-            Enumeration enum = this.headers.keys();
+            Enumeration henum = this.headers.keys();
 
-            while (enum.hasMoreElements())
+            while (henum.hasMoreElements())
             {
-                String name = (String) enum.nextElement();
+                String name = (String) henum.nextElement();
                 String value = (String) headers.get(name);
                 this.message.addHeader(name, value);
             }
