@@ -29,6 +29,7 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -459,6 +460,8 @@ public abstract class Email
     {
         try
         {
+            InternetAddress ia = new InternetAddress(email);
+            
             if (!StringUtils.isNotEmpty(name))
             {
                 name = email;
@@ -466,12 +469,18 @@ public abstract class Email
 
             if (StringUtils.isNotEmpty(this.charset))
             {
-                this.toList.add(new InternetAddress(email, name, this.charset));
+                ia.setPersonal(name, this.charset);
+                this.toList.add(ia);
             }
             else
             {
-                this.toList.add(new InternetAddress(email, name));
+                ia.setPersonal(name);
+                this.toList.add(ia);
             }
+        }
+        catch (AddressException ae)
+        {
+            throw new MessagingException("illegal to address", ae);
         }
         catch (UnsupportedEncodingException e)
         {
@@ -522,6 +531,8 @@ public abstract class Email
     {
         try
         {
+            InternetAddress ia = new InternetAddress(email);
+
             if (!StringUtils.isNotEmpty(name))
             {
                 name = email;
@@ -529,12 +540,18 @@ public abstract class Email
 
             if (StringUtils.isNotEmpty(this.charset))
             {
-                this.ccList.add(new InternetAddress(email, name, this.charset));
+                ia.setPersonal(name, this.charset);
+                this.ccList.add(ia);
             }
             else
             {
-                this.ccList.add(new InternetAddress(email, name));
+                ia.setPersonal(name);
+                this.ccList.add(ia);
             }
+        }
+        catch (AddressException ae)
+        {
+            throw new MessagingException("illegal cc address", ae);
         }
         catch (UnsupportedEncodingException e)
         {
@@ -586,6 +603,8 @@ public abstract class Email
     {
         try
         {
+            InternetAddress ia = new InternetAddress(email);
+
             if (!StringUtils.isNotEmpty(name))
             {
                 name = email;
@@ -593,14 +612,19 @@ public abstract class Email
 
             if (StringUtils.isNotEmpty(this.charset))
             {
-                this.bccList.add(
-                    new InternetAddress(email, name, this.charset));
+                ia.setPersonal(name, this.charset);
+                this.bccList.add(ia);
             }
             else
             {
-                this.bccList.add(new InternetAddress(email, name));
+                ia.setPersonal(name);
+                this.bccList.add(ia);
             }
 
+        }
+        catch (AddressException ae)
+        {
+            throw new MessagingException("illegal bcc address", ae);
         }
         catch (UnsupportedEncodingException e)
         {
@@ -653,6 +677,8 @@ public abstract class Email
     {
         try
         {
+            InternetAddress ia = new InternetAddress(email);
+
             if (!StringUtils.isNotEmpty(name))
             {
                 name = email;
@@ -660,13 +686,18 @@ public abstract class Email
 
             if (StringUtils.isNotEmpty(this.charset))
             {
-                this.replyList.add(
-                    new InternetAddress(email, name, this.charset));
+                ia.setPersonal(name, this.charset);
+                this.replyList.add(ia);
             }
             else
             {
-                this.replyList.add(new InternetAddress(email, name));
+                ia.setPersonal(name);
+                this.replyList.add(ia);
             }
+        }
+        catch (AddressException ae)
+        {
+            throw new MessagingException("illegal replyTo address", ae);
         }
         catch (UnsupportedEncodingException e)
         {
