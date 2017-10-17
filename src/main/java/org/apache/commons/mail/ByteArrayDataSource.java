@@ -6,8 +6,10 @@
 
 package org.apache.commons.mail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import javax.activation.DataSource;
-import java.io.*;
 
 /** 
  * A DataSource implementation that may be used to feed images
