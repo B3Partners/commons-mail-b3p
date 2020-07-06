@@ -39,17 +39,17 @@ timestamps {
                     sh "mvn javadoc:test-javadoc"
                 }
             }
+        }
 
-            withEnv(["JAVA_HOME=${ tool 'JDK8' }", "PATH+MAVEN=${tool 'Maven CURRENT'}/bin:${env.JAVA_HOME}/bin"]) {
-                stage('Publish Test Results') {
-                    junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml, **/target/failsafe-reports/TEST-*.xml'
-                }
+        withEnv(["JAVA_HOME=${ tool 'JDK8' }", "PATH+MAVEN=${tool 'Maven CURRENT'}/bin:${env.JAVA_HOME}/bin"]) {
+            stage('Publish Test Results') {
+                junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml, **/target/failsafe-reports/TEST-*.xml'
+            }
 
-                stage('OWASP Dependency Check') {
-                    echo "Uitvoeren OWASP dependency check"
-                    sh "mvn org.owasp:dependency-check-maven:check"
-                    dependencyCheckPublisher failedNewCritical: 1, unstableNewHigh: 1, unstableNewLow: 1, unstableNewMedium: 1
-                }
+            stage('OWASP Dependency Check') {
+                echo "Uitvoeren OWASP dependency check"
+                sh "mvn org.owasp:dependency-check-maven:check"
+                dependencyCheckPublisher failedNewCritical: 1, unstableNewHigh: 1, unstableNewLow: 1, unstableNewMedium: 1
             }
         }
     }
