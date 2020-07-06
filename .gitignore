@@ -1,4 +1,4 @@
 /target/
 *.log
 /.idea/
-/commons-mail-b3p.iml
+*.iml
